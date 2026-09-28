@@ -1,0 +1,11 @@
+{
+  "appId": "com.ceobot.bubblematch3",
+  "appName": "Bubble Match-3",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}

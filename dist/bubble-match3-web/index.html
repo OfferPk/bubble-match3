@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#12082a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="Bubble Match-3 — offline puzzle with 48 fixed levels. No servers." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>Bubble Match-3</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- MENU -->
+    <section id="screen-menu" class="screen">
+      <div class="hero">
+        <div class="logo-gems" aria-hidden="true">🔴🔵🟢🟡🟣🟠</div>
+        <h1>Bubble Match-3</h1>
+        <p class="tagline">Match · Cascade · Clear — 48 offline levels · specials · ice</p>
+        <div class="menu-stats">
+          <span id="menu-stars">★ 0</span>
+          <span id="menu-unlocked">Level 1</span>
+          <span id="menu-cash" title="Cow Cash">🐄 <span data-cow-cash>100</span></span>
+        </div>
+      </div>
+      <div class="menu-actions">
+        <button type="button" id="btn-continue-campaign" class="btn btn-primary">Continue</button>
+        <button type="button" id="btn-play" class="btn btn-secondary">Level Select</button>
+        <button type="button" id="btn-earn-cash" class="btn btn-ghost">Watch ad for Cow Cash (stub)</button>
+        <button type="button" id="btn-sound" class="btn btn-ghost">🔊 Sound</button>
+        <button type="button" id="btn-reset-progress" class="btn btn-ghost muted">Reset progress</button>
+      </div>
+      <p class="fine-print">Offline · Progress in localStorage · No accounts / servers</p>
+    </section>
+
+    <!-- LEVELS -->
+    <section id="screen-levels" class="screen" hidden>
+      <header class="top-bar">
+        <button type="button" id="btn-levels-back" class="btn-icon" aria-label="Back">←</button>
+        <h2>Levels</h2>
+        <div class="top-meta" id="progress-summary">Unlocked 1/48</div>
+      </header>
+      <div class="cash-row"><span class="cash-pill">🐄 <span data-cow-cash>100</span></span></div>
+      <div id="level-grid" class="level-grid"></div>
+    </section>
+
+    <!-- GAME -->
+    <section id="screen-game" class="screen" hidden>
+      <header class="top-bar game-bar">
+        <button type="button" id="btn-game-back" class="btn-icon" aria-label="Back">←</button>
+        <div class="hud">
+          <div class="hud-item"><span class="hud-label">Level</span><span id="hud-level">Lv 1</span></div>
+          <div class="hud-item"><span class="hud-label">Moves</span><span id="hud-moves">20</span></div>
+          <div class="hud-item"><span class="hud-label">Score</span><span id="hud-score">0</span></div>
+        </div>
+      </header>
+      <p id="level-title" class="level-name">First Spark</p>
+      <p id="hud-goal" class="goal-line">Score 800</p>
+      <div id="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="Match-3 board"></div>
+        <div id="shuffle-tip" class="toast" hidden>Board shuffled</div>
+      </div>
+      <p class="fine-print">Swipe or tap adjacent bubbles to swap</p>
+    </section>
+  </div>
+
+  <!-- WIN -->
+  <div id="modal-win" class="modal" hidden>
+    <div class="modal-card">
+      <h2>Level Clear!</h2>
+      <div id="win-stars" class="stars-big">★★★</div>
+      <p>Score: <strong id="win-score">0</strong></p>
+      <p id="win-best" class="accent"></p>
+      <p id="win-cash" class="accent">+0 Cow Cash</p>
+      <div class="modal-actions">
+        <button type="button" id="btn-next-level" class="btn btn-primary">Next Level</button>
+        <button type="button" id="btn-double-cash" class="btn btn-secondary">2× Cash (ad stub)</button>
+        <button type="button" id="btn-win-levels" class="btn btn-ghost">Level Select</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOSE / FAIL CONTINUE -->
+  <div id="modal-lose" class="modal" hidden>
+    <div class="modal-card">
+      <h2>Out of Moves</h2>
+      <p>Score: <strong id="lose-score">0</strong></p>
+      <p class="fine-print">Continue with +5 moves?</p>
+      <div class="modal-actions">
+        <button type="button" id="btn-continue" class="btn btn-primary">▶ Rewarded Continue (stub)</button>
+        <button type="button" id="btn-continue-cash" class="btn btn-secondary">Continue — 50 🐄</button>
+        <button type="button" id="btn-retry" class="btn btn-secondary">Retry</button>
+        <button type="button" id="btn-lose-levels" class="btn btn-ghost">Level Select</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AD STUB -->
+  <div id="modal-ad-stub" class="modal" hidden>
+    <div class="modal-card">
+      <h2 class="ad-stub-title">Rewarded Ad (stub)</h2>
+      <p class="ad-stub-body fine-print" style="white-space:pre-wrap"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" data-ad-yes>Grant reward</button>
+        <button type="button" class="btn btn-ghost" data-ad-no>Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="ad-banner" class="ad-banner" hidden>Ad banner stub</div>
+
+  <script>
+    window.ADMOB_CONFIG = { enabled: false, bannerId: null, interstitialId: null, rewardedId: null };
+  </script>
+  <script src="js/levels.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/ads.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
