@@ -7,7 +7,7 @@
   'use strict';
 
   const COLOR_CLASS = ['gem-red', 'gem-blue', 'gem-green', 'gem-yellow', 'gem-purple', 'gem-orange'];
-  const COLOR_EMOJI = ['🔴', '🔵', '🟢', '🟡', '🟣', '🟠'];
+  const COLOR_MARKS = ['●', '◆', '▲', '✦', '✚', '■'];
   const COLOR_NAMES = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange'];
   const HINT_IDLE_MS = 4500;
   const THEMES = ['neon', 'ocean', 'sunset'];
@@ -75,7 +75,7 @@
     if (g.score != null) parts.push('Score ' + g.score.toLocaleString());
     if (g.collect) {
       Object.entries(g.collect).forEach(([ci, n]) => {
-        parts.push((COLOR_EMOJI[ci] || '?') + ' ×' + n);
+        parts.push((COLOR_MARKS[ci] || '?') + ' ' + (COLOR_NAMES[ci] || 'Color') + ' ×' + n);
       });
     }
     if (g.clearIce) parts.push('❄ Clear ice');
@@ -99,7 +99,7 @@
     if (g.collect) {
       Object.entries(g.collect).forEach(([ci, need]) => {
         const have = session.collected[ci] || 0;
-        bits.push((COLOR_EMOJI[ci] || '') + ' ' + have + '/' + need);
+        bits.push((COLOR_MARKS[ci] || '') + ' ' + have + '/' + need);
       });
     }
     if (g.clearIce || g.ice != null) {
@@ -192,6 +192,15 @@
         cell.className = cls;
         cell.dataset.r = r;
         cell.dataset.c = c;
+
+        if (cl && color >= 0 && !Match3.isStone(cl) && !Match3.isChocolate(cl) && !Match3.isIngredient(cl)) {
+          const mark = document.createElement('span');
+          mark.className = 'color-mark';
+          mark.setAttribute('aria-hidden', 'true');
+          mark.textContent = COLOR_MARKS[color] || '?';
+          cell.appendChild(mark);
+          if (cl.special) cell.classList.add('has-color-mark-special');
+        }
 
         let label = 'empty';
         if (cl && Match3.isStone(cl)) label = 'stone ' + cl.stone;

@@ -89,6 +89,12 @@ html, body {
   content: ''; position: absolute; top: 18%; left: 22%; width: 28%; height: 22%;
   border-radius: 50%; background: rgba(255,255,255,.45); pointer-events: none;
 }
+.color-mark {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: clamp(.55rem, 3.2vw, .9rem); font-weight: 900; line-height: 1;
+  -webkit-text-stroke: 1px rgba(0,0,0,.7); text-shadow: 0 1px 2px rgba(0,0,0,.8);
+  pointer-events: none; z-index: 1;
+}
 .gem:active { transform: scale(.92); }
 .gem.selected { outline: 3px solid #fff; outline-offset: 1px; transform: scale(1.08); z-index: 2; }
 .gem.matched { animation: pop .18s ease forwards; }
@@ -149,6 +155,10 @@ html, body {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   font-size: clamp(.7rem, 3.5vw, 1.1rem); font-weight: 900; color: #fff;
   text-shadow: 0 1px 2px rgba(0,0,0,.7); pointer-events: none; z-index: 1;
+}
+.gem.has-color-mark-special .color-mark {
+  inset: auto; top: 2px; right: 3px; width: 13px; height: 13px; border-radius: 50%;
+  background: rgba(0,0,0,.48); font-size: .55rem; -webkit-text-stroke: 0;
 }
 .bomb-badge { font-size: clamp(.85rem, 4vw, 1.25rem); }
 .gem.special-flash { animation: specialFlash .4s ease; }
