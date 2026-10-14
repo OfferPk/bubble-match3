@@ -18,8 +18,8 @@ function load(rel) {
   vm.runInContext(code, sandbox, { filename: rel });
 }
 
-load('js/levels.js');
-load('js/game.js');
+load('www/js/levels.js');
+load('www/js/game.js');
 
 const M = sandbox.Match3;
 const L = sandbox.Levels;

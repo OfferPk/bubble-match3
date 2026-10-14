@@ -1,5 +1,5 @@
 /**
- * UI: screens, board render (specials + ice + stone + lock + chocolate + cherry),
+ * UI: screens, board render (specials + ice + stone + lock + moss + cherry),
  * boosters (hammer/freeSwitch/colorBombStart/plusMoves + legacy), undo, settings,
  * shop, daily quests, combo meter, themes, FX, idle hint.
  */
@@ -14,7 +14,7 @@
   const BOOSTER_META = {
     hammer: { icon: '🔨', name: 'Hammer', desc: 'Destroy 1 tile', target: true },
     freeSwitch: { icon: '🔀', name: 'Free switch', desc: 'Swap adjacent free', target: true, twoTap: true },
-    colorBombStart: { icon: '★', name: 'Color bomb start', desc: 'Start with a color bomb', instant: true, preOnly: true },
+    colorBombStart: { icon: '★', name: 'Prism start', desc: 'Start with a Prism bubble', instant: true, preOnly: true },
     plusMoves: { icon: '➕', name: '+5 Moves', desc: 'Gain 5 moves', instant: true },
     rowBlast: { icon: '💥', name: 'Row blast', desc: 'Clear a row', target: true },
     colorBrush: { icon: '🎨', name: 'Color brush', desc: 'Clear one color', target: true }
@@ -35,6 +35,13 @@
 
   const $ = (sel, root) => (root || document).querySelector(sel);
   const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
+
+  function useBooster(type) {
+    const ok = Storage.spendBooster(type);
+    if (ok && session) session.usedBooster = true;
+    return ok;
+  }
+  let winAdPending = false;
 
   function showScreen(id) {
     $$('.screen').forEach((el) => {
@@ -82,7 +89,7 @@
     else if (g.ice != null) parts.push('❄ ×' + g.ice);
     if (g.cherries != null) parts.push('🍒 ×' + g.cherries);
     if (g.clearStone) parts.push('🪨 Clear stone');
-    if (g.clearChocolate) parts.push('🍫 Clear chocolate');
+    if (g.clearChocolate) parts.push('🌿 Clear moss');
     return parts.join(' · ');
   }
 
@@ -117,7 +124,7 @@
     }
     if (g.clearChocolate) {
       const left = Match3.countChocolate(session.board);
-      bits.push('🍫 ' + (left === 0 ? 'done' : left + ' left'));
+      bits.push('🌿 ' + (left === 0 ? 'done' : left + ' left'));
     }
     goalEl.textContent = bits.join(' · ');
   }
@@ -152,10 +159,10 @@
   }
 
   function specialLabel(special) {
-    if (special === 'stripe_h') return 'striped row';
-    if (special === 'stripe_v') return 'striped column';
-    if (special === 'wrapped') return 'wrapped bomb';
-    if (special === 'colorbomb') return 'color bomb';
+    if (special === 'stripe_h') return 'line row';
+    if (special === 'stripe_v') return 'line column';
+    if (special === 'wrapped') return 'burst bubble';
+    if (special === 'colorbomb') return 'prism';
     return '';
   }
 
@@ -204,9 +211,9 @@
 
         let label = 'empty';
         if (cl && Match3.isStone(cl)) label = 'stone ' + cl.stone;
-        else if (cl && Match3.isChocolate(cl)) label = 'chocolate';
+        else if (cl && Match3.isChocolate(cl)) label = 'moss';
         else if (cl && Match3.isIngredient(cl)) label = 'cherry';
-        else if (cl && cl.special === 'colorbomb') label = 'color bomb';
+        else if (cl && cl.special === 'colorbomb') label = 'prism';
         else label = (COLOR_NAMES[color] || 'gem') + (cl && cl.special ? ' ' + specialLabel(cl.special) : '');
         if (cl && cl.lock > 0) label += ' locked';
         cell.setAttribute('aria-label', label + ' at ' + (r + 1) + ',' + (c + 1));
@@ -220,7 +227,7 @@
         if (cl && Match3.isChocolate(cl)) {
           const badge = document.createElement('span');
           badge.className = 'choc-badge';
-          badge.textContent = '🍫';
+          badge.textContent = '🌿';
           cell.appendChild(badge);
         }
         if (cl && Match3.isIngredient(cl)) {
@@ -382,7 +389,7 @@
           renderBoard(true);
           const tip = $('#shuffle-tip');
           if (tip) {
-            tip.textContent = '🍫 Chocolate spread!';
+            tip.textContent = '🌿 Moss spread!';
             tip.hidden = false;
             setTimeout(() => { tip.hidden = true; tip.textContent = 'Board shuffled'; }, 900);
           }
@@ -463,7 +470,7 @@
       btn.addEventListener('click', () => {
         if (global.AudioFX) global.AudioFX.click();
         if (type === 'plusMoves') {
-          if (!Storage.spendBooster(type)) return;
+          if (!useBooster(type)) return;
           const result = Match3.usePlusMoves(session);
           if (!result.ok) {
             Storage.addBooster(type, 1);
@@ -532,7 +539,7 @@
           renderBoard(true);
           return;
         }
-        if (!Storage.spendBooster(type)) {
+        if (!useBooster(type)) {
           activeBooster = null;
           session.selected = null;
           renderBoosterBar();
@@ -552,7 +559,7 @@
         playResult(result);
         return;
       }
-      if (!Storage.spendBooster(type)) {
+      if (!useBooster(type)) {
         activeBooster = null;
         renderBoosterBar();
         return;
@@ -701,7 +708,7 @@
     if (equipped) {
       const meta = BOOSTER_META[equipped];
       if (meta && meta.instant) {
-        if (Storage.spendBooster(equipped)) {
+        if (useBooster(equipped)) {
           if (equipped === 'colorBombStart') {
             Match3.placeColorBombStart(session);
           } else if (equipped === 'plusMoves') {
@@ -735,6 +742,7 @@
     $('#modal-lose').hidden = true;
     Ads.hideBanner();
     scheduleHint();
+    if (id === 1 && global.Meta && global.Meta.runCoach) global.Meta.runCoach(false);
   }
 
   async function onWin(stars) {
@@ -755,9 +763,20 @@
     const nextId = currentLevelId + 1;
     const hasNext = nextId <= Levels.getLevelCount() && Storage.isUnlocked(nextId);
     $('#btn-next-level').hidden = !hasNext;
+    const wm = $('#win-meta'); if (wm) wm.textContent = '';
     $('#modal-win').hidden = false;
-    try { await Ads.showInterstitial(); } catch (_) {}
+    winAdPending = true;
+    if (global.Meta && global.Meta.win) {
+      try {
+        const lv = Levels.getLevel ? Levels.getLevel(currentLevelId) : null;
+        global.Meta.win({ level: currentLevelId, stars: stars, score: session.score, clean: !session.continued && !session.usedBooster,
+          movesLeft: session.movesLeft || 0, blockers: !!(lv && lv.goals && (lv.goals.clearIce || lv.goals.clearStone || lv.goals.clearChocolate || lv.goals.cherries)) });
+      } catch (e) { console.warn(e); }
+    }
   }
+  // Interstitials are only considered after a completed level, when the player taps on (never on launch/exit;
+  // AdGate blocks the first session; ads.js paces every N levels / 60 s).
+  function afterLevelAd() { if (!winAdPending) return; winAdPending = false; try { Ads.showInterstitial(); } catch (_) {} }
 
   function onLose() {
     clearHint();
@@ -790,7 +809,7 @@
       if (hasIce && unlocked) badges += '<span class="lv-ice">❄</span>';
       if (hasCherry && unlocked) badges += '<span class="lv-cherry">🍒</span>';
       if (hasStone && unlocked) badges += '<span class="lv-ice">🪨</span>';
-      if (hasChoc && unlocked) badges += '<span class="lv-choc">🍫</span>';
+      if (hasChoc && unlocked) badges += '<span class="lv-choc">🌿</span>';
       btn.innerHTML =
         '<span class="lv-num">' + lv.id + '</span>' +
         '<span class="lv-stars">' + (unlocked ? '★'.repeat(rec.stars) + '☆'.repeat(3 - rec.stars) : '🔒') + '</span>' +
@@ -1045,6 +1064,7 @@
 
     $('#btn-next-level').addEventListener('click', async () => {
       $('#modal-win').hidden = true;
+      afterLevelAd();
       if (global.AudioFX) global.AudioFX.click();
       const next = currentLevelId + 1;
       if (next <= Levels.getLevelCount()) openPreLevel(next);
@@ -1052,6 +1072,7 @@
     });
     $('#btn-win-levels').addEventListener('click', () => {
       $('#modal-win').hidden = true;
+      afterLevelAd();
       openLevels();
     });
     $('#btn-retry').addEventListener('click', () => {
@@ -1067,7 +1088,7 @@
     const earnBtn = $('#btn-earn-cash');
     if (earnBtn) earnBtn.addEventListener('click', async () => {
       if (global.AudioFX) global.AudioFX.click();
-      const r = await Ads.showRewarded('cow_cash');
+      const r = await Ads.showRewarded('coins');
       if (r && r.rewarded) {
         Storage.addCowCash(Ads.REWARD_CASH || Storage.REWARD_CASH || 40);
         if (global.AudioFX) global.AudioFX.cash();
@@ -1148,4 +1169,10 @@
   }
 
   global.UI = { startLevel, openLevels, openMenu, openShop, openPreLevel, openSettings, formatGoal };
+  global.__bubble = {
+    get level() { return currentLevelId; }, get session() { return session; }, refreshCash: refreshCash,
+    showScreen: showScreen, startLevel: startLevel, openLevels: openLevels, renderBoard: () => { if (session) renderBoard(false); },
+    winForTest: (st) => onWin(st),
+    isFirstLevel: () => !!session && currentLevelId === 1 && !$('#screen-game').hidden
+  };
 })(window);

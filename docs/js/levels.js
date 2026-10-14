@@ -84,12 +84,12 @@
     { id: 56, name: 'Cherry Master',   rows: 8, cols: 8, colors: 6, moves: 24, goals: { cherries: 4, score: 2500 }, ingredients: [[0, 0], [0, 2], [0, 5], [0, 7]], lock: { pattern: 'center' }, stone: [[5, 3, 2], [5, 4, 2]], stars: [2500, 5000, 8000] },
 
     // —— Chocolate + dual goals (57–64) ——
-    { id: 57, name: 'Cocoa Start',     rows: 7, cols: 7, colors: 5, moves: 24, goals: { clearChocolate: true, score: 1000 }, chocolate: { pattern: 'center' }, stars: [1000, 2400, 4000] },
-    { id: 58, name: 'Sweet Spread',    rows: 8, cols: 8, colors: 5, moves: 26, goals: { clearChocolate: true }, chocolate: { pattern: 'checker' }, stars: [1200, 2800, 4800] },
-    { id: 59, name: 'Ice & Cocoa',     rows: 8, cols: 8, colors: 5, moves: 26, goals: { clearIce: true, clearChocolate: true }, ice: { pattern: 'rows', rows: [2], layers: 1 }, chocolate: { pattern: 'rows', rows: [5] }, stars: [1400, 3200, 5400] },
-    { id: 60, name: 'Stone Cocoa',     rows: 8, cols: 8, colors: 6, moves: 24, goals: { clearStone: true, clearChocolate: true }, stone: { pattern: 'cols', cols: [3], hits: 2 }, chocolate: { pattern: 'border' }, stars: [1600, 3400, 5600] },
+    { id: 57, name: 'Moss Start' ,     rows: 7, cols: 7, colors: 5, moves: 24, goals: { clearChocolate: true, score: 1000 }, chocolate: { pattern: 'center' }, stars: [1000, 2400, 4000] },
+    { id: 58, name: 'Green Spread',    rows: 8, cols: 8, colors: 5, moves: 26, goals: { clearChocolate: true }, chocolate: { pattern: 'checker' }, stars: [1200, 2800, 4800] },
+    { id: 59, name: 'Ice & Moss' ,     rows: 8, cols: 8, colors: 5, moves: 26, goals: { clearIce: true, clearChocolate: true }, ice: { pattern: 'rows', rows: [2], layers: 1 }, chocolate: { pattern: 'rows', rows: [5] }, stars: [1400, 3200, 5400] },
+    { id: 60, name: 'Stone Moss' ,     rows: 8, cols: 8, colors: 6, moves: 24, goals: { clearStone: true, clearChocolate: true }, stone: { pattern: 'cols', cols: [3], hits: 2 }, chocolate: { pattern: 'border' }, stars: [1600, 3400, 5600] },
     { id: 61, name: 'Dual Harvest',    rows: 8, cols: 8, colors: 5, moves: 28, goals: { cherries: 2, clearChocolate: true }, ingredients: [[0, 2], [0, 5]], chocolate: { pattern: 'center' }, stars: [1500, 3400, 5600] },
-    { id: 62, name: 'Locked Cocoa',    rows: 8, cols: 8, colors: 5, moves: 24, goals: { score: 3000, clearChocolate: true }, lock: { pattern: 'rows', rows: [3] }, chocolate: [[6, 2], [6, 3], [6, 4], [6, 5]], stars: [3000, 5200, 8000] },
+    { id: 62, name: 'Locked Moss' ,    rows: 8, cols: 8, colors: 5, moves: 24, goals: { score: 3000, clearChocolate: true }, lock: { pattern: 'rows', rows: [3] }, chocolate: [[6, 2], [6, 3], [6, 4], [6, 5]], stars: [3000, 5200, 8000] },
     { id: 63, name: 'Score Siege II',  rows: 8, cols: 8, colors: 6, moves: 16, goals: { score: 7500 }, stars: [7500, 11500, 16000] },
     { id: 64, name: 'Grand Finale',    rows: 8, cols: 8, colors: 6, moves: 22, goals: { score: 4000, clearIce: true, clearChocolate: true }, ice: { pattern: 'center', layers: 1 }, chocolate: { pattern: 'checker' }, stars: [4000, 7000, 11000] }
   ];

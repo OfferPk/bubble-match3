@@ -1,7 +1,7 @@
 {
   "name": "Bubble Match-3",
   "short_name": "BubbleM3",
-  "description": "Offline Match-3 with 64 baked-in levels, boosters, blockers, chocolate, cherries, PWA",
+  "description": "Offline Match-3 with 64 baked-in levels, boosters, blockers, moss, cherries, PWA",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

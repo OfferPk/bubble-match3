@@ -1,26 +1,23 @@
 {
   "name": "bubble-match3",
-  "version": "2.0.0-complete",
-  "description": "Bubble Match-3 \u2014 offline puzzle with 64 baked-in levels, boosters, blockers, chocolate, PWA + Capacitor",
+  "version": "2.1.0",
+  "description": "Bubble Match-3: offline match-3 with 64 hand-made levels, boosters, blockers, daily rewards, cosmetic skins, Capacitor Android build and AdMob.",
   "private": true,
   "scripts": {
-    "start": "npx --yes serve -l 4175 .",
-    "serve": "npx --yes serve -l 4175 .",
-    "build:web": "node scripts/build-web.js",
-    "cap:add:android": "npx cap add android",
-    "cap:sync": "npm run build:web && npx cap sync android",
-    "cap:open": "npx cap open android",
-    "android:build": "npm run cap:sync && cd android && ./gradlew assembleDebug",
-    "start:py": "python3 -m http.server 4175",
-    "smoke": "node scripts/smoke-engine.js",
-    "test": "node scripts/smoke-engine.js"
+    "serve": "npx --yes http-server www -p 4175 -c-1",
+    "test": "node scripts/smoke-engine.js && node test/adgate.test.js && node test/meta.test.js && node test/storecheck.test.js",
+    "test:browser": "node test/meta.browser.test.js",
+    "sync": "npx cap sync android"
   },
   "dependencies": {
-    "@capacitor/android": "^6.2.0",
-    "@capacitor/core": "^6.2.0"
+    "@capacitor-community/admob": "8.1.0",
+    "@capacitor-community/in-app-review": "8.0.0",
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/haptics": "^8.0.2"
   },
   "devDependencies": {
-    "@capacitor/cli": "^6.2.0"
+    "@capacitor/cli": "^8.5.2"
   },
   "keywords": [
     "match-3",
@@ -29,6 +26,9 @@
     "offline",
     "capacitor"
   ],
-  "author": "CEO BOT Games / Mia Smith",
-  "license": "MIT"
+  "author": "OfferPk",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
 }

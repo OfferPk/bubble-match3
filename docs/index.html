@@ -6,12 +6,13 @@
   <meta name="theme-color" content="#12082a" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="description" content="Bubble Match-3 — offline puzzle with 64 fixed levels. Boosters, blockers, chocolate, cherries, PWA." />
+  <meta name="description" content="Bubble Match-3 — offline puzzle with 64 fixed levels. Boosters, blockers, moss, cherries, PWA." />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>Bubble Match-3</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/meta.css" />
 </head>
 <body data-theme="neon">
   <div id="app">
@@ -20,7 +21,7 @@
       <div class="hero">
         <div class="logo-gems" aria-hidden="true">🔴🔵🟢🟡🟣🟠</div>
         <h1>Bubble Match-3</h1>
-        <p class="tagline">Match · Cascade · Clear — 64 offline levels · specials · blockers · chocolate</p>
+        <p class="tagline">Match · Cascade · Clear — 64 offline levels · specials · blockers · moss</p>
         <div class="menu-stats">
           <span id="menu-stars">★ 0</span>
           <span id="menu-unlocked">Level 1</span>
@@ -43,7 +44,7 @@
         <button type="button" id="btn-play" class="btn btn-secondary">Level Select</button>
         <button type="button" id="btn-shop" class="btn btn-secondary">🪙 Booster Shop</button>
         <button type="button" id="btn-theme" class="btn btn-ghost">🎨 Theme</button>
-        <button type="button" id="btn-earn-cash" class="btn btn-ghost">Watch ad for Coins (stub)</button>
+        <button type="button" id="btn-earn-cash" class="btn btn-ghost">▶ Watch ad: +40 Coins</button>
         <button type="button" id="btn-settings" class="btn btn-ghost">⚙ Settings</button>
         <button type="button" id="btn-sound" class="btn btn-ghost">🔊 Sound</button>
         <button type="button" id="btn-reset-progress" class="btn btn-ghost muted">Reset progress</button>
@@ -93,7 +94,7 @@
       <header class="top-bar">
         <button type="button" id="btn-settings-back" class="btn-icon" aria-label="Back">←</button>
         <h2>Settings</h2>
-        <div class="top-meta">v2.0.0</div>
+        <div class="top-meta">v2.1.0</div>
       </header>
       <div class="settings-list">
         <label class="settings-row">
@@ -149,9 +150,10 @@
       <p>Score: <strong id="win-score">0</strong></p>
       <p id="win-best" class="accent"></p>
       <p id="win-cash" class="accent">+0 Coins</p>
+      <p id="win-meta" class="win-meta" aria-live="polite"></p>
       <div class="modal-actions">
         <button type="button" id="btn-next-level" class="btn btn-primary">Next Level</button>
-        <button type="button" id="btn-double-cash" class="btn btn-secondary">2× Coins (ad stub)</button>
+        <button type="button" id="btn-double-cash" class="btn btn-secondary">▶ Watch ad: 2× Coins</button>
         <button type="button" id="btn-win-levels" class="btn btn-ghost">Level Select</button>
       </div>
     </div>
@@ -164,7 +166,7 @@
       <p>Score: <strong id="lose-score">0</strong></p>
       <p class="fine-print">Continue with +5 moves?</p>
       <div class="modal-actions">
-        <button type="button" id="btn-continue" class="btn btn-primary">▶ Rewarded Continue (stub)</button>
+        <button type="button" id="btn-continue" class="btn btn-primary">▶ Watch ad: +5 Moves</button>
         <button type="button" id="btn-continue-cash" class="btn btn-secondary">Continue — 50 🪙</button>
         <button type="button" id="btn-retry" class="btn btn-secondary">Retry</button>
         <button type="button" id="btn-lose-levels" class="btn btn-ghost">Level Select</button>
@@ -172,28 +174,25 @@
     </div>
   </div>
 
-  <!-- AD STUB -->
-  <div id="modal-ad-stub" class="modal" hidden>
-    <div class="modal-card">
-      <h2 class="ad-stub-title">Rewarded Ad (stub)</h2>
-      <p class="ad-stub-body fine-print" style="white-space:pre-wrap"></p>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-primary" data-ad-yes>Grant reward</button>
-        <button type="button" class="btn btn-ghost" data-ad-no>Cancel</button>
-      </div>
-    </div>
-  </div>
 
-  <div id="ad-banner" class="ad-banner" hidden>Ad banner stub</div>
-
-  <script>
-    window.ADMOB_CONFIG = { enabled: false, bannerId: null, interstitialId: null, rewardedId: null };
-  </script>
+  <div id="toast" class="meta-toast" role="status" aria-live="polite"></div>
+  <script src="js/sr.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/shopcore.js"></script>
+  <script src="js/ads-config.js"></script>
+  <script src="js/adgate.js"></script>
   <script src="js/levels.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/ads.js"></script>
   <script src="js/game.js"></script>
   <script src="js/ui.js"></script>
+  <script src="js/daily.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/coach.js"></script>
+  <script src="js/review.js"></script>
+  <script src="js/ach-defs.js"></script>
+  <script src="js/metakit.js"></script>
+  <script src="js/meta-config.js"></script>
 </body>
 </html>

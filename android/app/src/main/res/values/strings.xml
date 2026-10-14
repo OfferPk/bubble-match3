@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Bubble Match-3</string>
+    <string name="title_activity_main">Bubble Match-3</string>
+    <string name="package_name">com.offerpk.bubblematch3</string>
+    <string name="custom_url_scheme">com.offerpk.bubblematch3</string>
+</resources>

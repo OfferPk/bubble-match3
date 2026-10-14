@@ -110,3 +110,13 @@ npm test   # → scripts/smoke-engine.js
 ## License
 
 MIT
+
+## v2.1.0 (Android + meta layer)
+
+- Web app now lives in `www/` (Capacitor `webDir`); `docs/` is the GitHub Pages copy.
+- Android: Capacitor 8 project in `android/` (`com.offerpk.bubblematch3`), signed release AAB/APK built by `.github/workflows/android.yml` on every `v*` tag.
+- AdMob via `@capacitor-community/admob` with Google **test** IDs in `www/js/ads-config.js`. Rewarded ads only from a tap; interstitials only after a completed level, never on launch/exit or in the first session (`www/js/adgate.js`).
+- Meta layer (`www/js/metakit.js` + `meta-config.js`): How to play card, 7-day daily reward + seeded Daily challenge, Skin Shop (bubble finishes + backdrops, tap to preview, 24h rewarded trial), achievements + Stats, level-1 coach, accessibility settings.
+- Coins are earned only by playing (never sold, never cashed out).
+- Store: `LAUNCH_CHECKLIST.md`, `store/LISTING-v2.1.md`, `store/screenshots/01–08.png`, Play Store guard workflow (`play-store.yml`).
+- Tests: `npm test` (engine smoke, ad gate, meta, store guard) and `node test/meta.browser.test.js http://localhost:4175/`.
