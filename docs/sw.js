@@ -1,5 +1,5 @@
 /* Bubble Match-3 service worker — offline cache */
-const CACHE = 'bm3-v2.1.0';
+const CACHE = 'bm3-v2.1.0-ui-20261014';
 const ASSETS = [
   './',
   './index.html',
