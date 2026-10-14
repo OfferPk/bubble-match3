@@ -32,7 +32,7 @@ In Play Console, enrol in **Play App Signing** when you create the app. The CI k
 
 - [ ] Developer account (one-time US$25) with identity verification done
 - [ ] Create the app "Bubble Match-3", package `com.offerpk.bubblematch3`
-- [ ] Store listing: copy the text from `store/LISTING-v2.1.md`, the screenshots from `store/screenshots/01–08.png` and `store/icon-512.png` (feature graphic 1024×500 still to make)
+- [ ] Store listing: copy the text from `store/LISTING-v2.1.md`, the screenshots from `store/screenshots/01–08.png`, `store/feature-graphic-1024x500.png` and `store/icon-512.png`
 - [ ] App content: privacy policy URL (GitHub Pages `privacy.html`), Ads = **Yes**, Data safety (no data collected by the app itself; AdMob collects the Advertising ID) + Advertising ID declaration, target audience 13+, content rating questionnaire
 - [ ] New personal developer accounts must run a **closed test** (12+ testers for 14 days) before production access
 
